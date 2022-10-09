@@ -71,6 +71,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+
+        if(text_display.getText().equals("Error occurred"))
+        {
+            clear_display();
+        }
+
         switch (v.getId()) {
             case R.id.btn0:
                 addNumber("0");
@@ -122,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 try {
                     result = evaluate(text_display.getText().toString());
                     text_display.setText(result);
-                } catch (ScriptException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     text_display.setText("Error occurred");
                 }
@@ -133,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private String evaluate(String expression) throws ScriptException {
+    private String evaluate(String expression) throws Exception {
         String result = engine.eval(expression).toString();
         BigDecimal decimal = new BigDecimal(result);
         return decimal.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString();
